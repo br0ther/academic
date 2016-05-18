@@ -1,0 +1,32 @@
+{% extends 'MopaBootstrapBundle::base.html.twig' %}
+
+{% block head_style %}
+    <link rel="stylesheet" href="http://getbootstrap.com/dist/css/bootstrap.min.css">
+{% endblock head_style %}
+
+{% block head_script %}
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+{% endblock head_script %}
+
+{% block body %}
+    {% block navbar %}
+        {% if app.user %}
+            {% embed '@MopaBootstrap/Navbar/navbar.html.twig' with { fixedTop: true, id: 'navbar' } %}
+                {% block menu %}
+                    {{ mopa_bootstrap_menu('BugTrackBundle:Builder:MainMenu', {'automenu': 'navbar', 'pull-right': true}) }}
+                {% endblock %}
+            {% endembed %}
+        {% endif %}
+    {% endblock navbar %}
+
+    {% block container %}
+        <div class="container">
+            <div>
+                {% block content %}
+                {% endblock content %}
+            </div>
+        </div>
+    {% endblock %}
+{% endblock body %}
+
