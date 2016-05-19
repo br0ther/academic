@@ -2,6 +2,7 @@
 
 {% block head_style %}
     <link rel="stylesheet" href="http://getbootstrap.com/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 {% endblock head_style %}
 
 {% block head_script %}
@@ -11,10 +12,13 @@
 
 {% block body %}
     {% block navbar %}
-        {% if app.user %}
-            {% embed '@MopaBootstrap/Navbar/navbar.html.twig' with { fixedTop: true, id: 'navbar' } %}
+        {% if app.user and app.request.attributes.get('_route') != 'fos_user_registration_confirmed' %}
+            {% embed 'navbar.html.twig' with { inverse: false, id: 'navbar' } %}
                 {% block menu %}
-                    {{ mopa_bootstrap_menu('BugTrackBundle:Builder:MainMenu', {'automenu': 'navbar', 'pull-right': true}) }}
+                    {{ mopa_bootstrap_menu('BugTrackBundle:Builder:MainMenu', {'automenu': 'navbar'}) }}
+                    <div class="navbar-right">
+                        {{ mopa_bootstrap_menu('BugTrackBundle:Builder:ProfileMenu', {'automenu': 'navbar'}) }}
+                    </div>
                 {% endblock %}
             {% endembed %}
         {% endif %}

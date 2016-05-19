@@ -1,0 +1,21 @@
+{% extends "layout.html.twig" %}
+
+{% block head_style %}
+    {{ parent() }}
+{% endblock %}
+
+{% block title %}
+    Edit user
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="form-group">
+        <div class="col-sm-3">
+            <button type="submit" value="save" class="btn btn-info">save</button>
+            <button type="submit" value="cancel" class="btn btn-default">cancel</button>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock content %}

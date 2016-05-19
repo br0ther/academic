@@ -16,24 +16,46 @@ class Builder implements ContainerAwareInterface
     {
         $menu = $factory->createItem('root', ['navbar' => true]);
 
-        $menu->addChild('Home', array('route' => 'homepage'));
+        $menu->addChild('Home', ['route' => 'homepage']);
+        $menu->addChild('Projects', ['route' => 'homepage']);
+        $menu->addChild('Issues', ['route' => 'homepage']);
+        
+        $active = false;
+        foreach ($menu->getChildren() as $item) {
+            /** @var ItemInterface $item */
+            if ($item->isCurrent()) {
+                $active = true;
+                break;
+            }
+        }
 
-        $token = $this->container->get('security.token_storage')->getToken();
-        $userName = $token->getUsername();
+        $route = $this->container->get('request')->attributes->get('_route');
 
-        $menu->addChild($userName, array(
-            'route' => 'fos_user_profile_show',
-            'attributes' => array(
-                'class' => 'user-name'
-            )
-        ));
+        if (!$active) {
+            $active = $this->activeMenuByRouteName($route);
+            if ($active && isset($menu[$active])) {
+                $menu[$active]->setCurrent(true);
+            }
+        }
 
-        $menu->addChild('Logout', array(
+        return $menu;
+    }
+
+    public function profileMenu(FactoryInterface $factory, array $options)
+    {
+        $menu = $factory->createItem('profile', ['navbar-right' => true,]);
+
+        $menu->addChild('Profile', [
+            'route' => 'user_view',
+            'attributes' => [
+            ]
+        ]);
+
+        $menu->addChild('Logout', [
             'route' => 'fos_user_security_logout',
-            'attributes' => array(
-                'class' => 'user-name'
-            )
-        ));
+            'attributes' => [
+            ]
+        ]);
 
         $active = false;
         foreach ($menu->getChildren() as $item) {
@@ -66,19 +88,14 @@ class Builder implements ContainerAwareInterface
     private function activeMenuByRouteName($currentRoute)
     {
         $routes = array(
-            'myFeed' => array(
-                'feed.*',
-                'project_group_join_by_code',
+            'Profile' => array(
+                'user.*',
             ),
-            'library' => array(
-                'library.*',
-                'folder_list',
-                'folder_project_list',
+            'Projects' => array(
+                'project.*',
             ),
-            'groups' => array(
-                'project_group_.*',
-                'group_project_.*',
-                'organization_group_show',
+            'Issues' => array(
+                'issue.*',
             ),
         );
 
