@@ -4,12 +4,16 @@ namespace BugTrackBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Project
  *
  * @ORM\Table(name="project")
  * @ORM\Entity(repositoryClass="BugTrackBundle\Repository\ProjectRepository")
+ * @UniqueEntity(fields="label", message="Sorry, this label is already in use.")
+ * @UniqueEntity(fields="code", message="Sorry, this code is already in use.")
  */
 class Project
 {
@@ -26,6 +30,13 @@ class Project
      * @var string
      *
      * @ORM\Column(name="label", type="string", length=255, unique=true)
+     * 
+     * @Assert\Length(
+     *     min=2,
+     *     max="255",
+     *     minMessage="The label is too short. It must be at least 2 characters long",
+     *     maxMessage="The name is too long"
+     * )
      */
     private $label;
 
@@ -33,6 +44,14 @@ class Project
      * @var string
      *
      * @ORM\Column(name="code", type="string", length=10, unique=true)
+     * 
+     * @Assert\Length(
+     *     min=2,
+     *     max="255",
+     *     minMessage="The code is too short. It must be at least 2 characters long",
+     *     maxMessage="The name is too long"
+     * )
+     * 
      */
     private $code;
 
@@ -58,6 +77,12 @@ class Project
      * @ORM\OneToMany(targetEntity="Issue", mappedBy="project")
      */
     protected $issues;
+
+    public function __construct()
+    {
+        $this->members = new ArrayCollection();
+        $this->issues = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -203,5 +228,22 @@ class Project
     public function getIssues()
     {
         return $this->issues;
+    }
+
+    /**
+     * Get MembersFullNames
+     *
+     * @return array
+     */
+    public function getMembersFullNames()
+    {
+        $membersFullNames = [];
+
+        /** @var User $member */
+        foreach ($this->getMembers() as $member) {
+            $membersFullNames[] = $member->getFullName();
+        }
+        
+        return $membersFullNames;
     }
 }

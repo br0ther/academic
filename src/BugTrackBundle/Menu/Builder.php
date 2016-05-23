@@ -17,7 +17,32 @@ class Builder implements ContainerAwareInterface
         $menu = $factory->createItem('root', ['navbar' => true]);
 
         $menu->addChild('Home', ['route' => 'homepage']);
-        $menu->addChild('Projects', ['route' => 'homepage']);
+
+        /*
+        if($this->container->get('security.context')->isGranted(array('ROLE_ADMIN', 'ROLE_USER'))) {}
+        $username = $this->container->get('security.context')->getToken()->getUser()->getUsername();
+        */
+
+        $dropdown = $menu->addChild('Projects', [
+            'dropdown' => true,
+            'caret' => true,
+        ]);
+        $dropdown->addChild('Recent projects');
+        
+        $em = $this->container->get('doctrine')->getManager();
+        $projects = $em->getRepository('BugTrackBundle:Project')->findBy([], ['id' => 'DESC'], 5);
+
+        foreach ($projects as $project) {
+            $dropdown->addChild($project->getlabel(), [
+                'route' => 'project_view',
+                'routeParameters' => array('id' => $project->getId())
+            ]);
+        }
+        $dropdown->addChild('divider', ['divider' => true]);
+        $dropdown->addChild('Create', [
+            'route' => 'project_create',
+        ]);
+
         $menu->addChild('Issues', ['route' => 'homepage']);
         
         $active = false;
