@@ -34,7 +34,7 @@ class ProjectFormType extends AbstractType
                 ]
             ])
             ->add('members', EntityType::class, [
-                'property' => 'fullName',
+                'choice_label' => 'fullName',
                 'required' => false,
                 'class' => 'BugTrackBundle\Entity\User',
                 'multiple'  => true,

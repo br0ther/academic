@@ -100,7 +100,7 @@ class Project
      * @param string $label
      * @return Project
      */
-    public function setlabel($label)
+    public function setLabel($label)
     {
         $this->label = $label;
 
@@ -112,7 +112,7 @@ class Project
      *
      * @return string 
      */
-    public function getlabel()
+    public function getLabel()
     {
         return $this->label;
     }

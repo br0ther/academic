@@ -51,7 +51,7 @@ class ProjectController extends Controller
         
         $project = new Project();
         $pageLabel = $this->get('translator')->trans('project.create', [], 'BugTrackBundle');
-        $form = $this->createForm(new ProjectFormType(), $project, ['label' => $pageLabel]);
+        $form = $this->createForm(ProjectFormType::class, $project, ['label' => $pageLabel]);
 
         $form->handleRequest($request);
 
@@ -86,7 +86,7 @@ class ProjectController extends Controller
         //ToDo: add permissions & voter later
 
         $pageLabel = $this->get('translator')->trans('project.edit', [], 'BugTrackBundle');
-        $form = $this->createForm(new ProjectFormType(), $project, ['label' => $pageLabel]);
+        $form = $this->createForm(ProjectFormType::class, $project, ['label' => $pageLabel]);
 
         $form->handleRequest($request);
 
