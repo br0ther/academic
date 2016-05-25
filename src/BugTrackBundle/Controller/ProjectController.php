@@ -12,6 +12,10 @@ use Symfony\Component\HttpFoundation\Response;
 use BugTrackBundle\Entity\Project;
 use BugTrackBundle\Form\Type\ProjectFormType;
 
+/**
+ * Class ProjectController
+ * @package BugTrackBundle\Controller
+ */
 class ProjectController extends Controller
 {
     /**

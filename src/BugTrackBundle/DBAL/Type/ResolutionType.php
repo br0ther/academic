@@ -7,9 +7,9 @@ namespace BugTrackBundle\DBAL\Type;
  */
 class ResolutionType extends AbstractEnumType
 {
-    const RESOLUTION_FIXED = 'fixed';
-    const RESOLUTION_WONT_FIX = 'wont_fix';
-    const STATUS_DONE = 'done';
+    const RESOLUTION_FIXED = 'Fixed';
+    const RESOLUTION_WONT_FIX = 'Wont fix';
+    const STATUS_DONE = 'Done';
 
     /**
      * @var string Name of this type
@@ -22,8 +22,8 @@ class ResolutionType extends AbstractEnumType
      * @static
      */
     protected static $choices = [
-        self::RESOLUTION_FIXED => 'Fixed',
-        self::RESOLUTION_WONT_FIX => 'Won\'t fix',
-        self::STATUS_DONE => 'Done',
+        self::RESOLUTION_FIXED => self::RESOLUTION_FIXED,
+        self::RESOLUTION_WONT_FIX => self::RESOLUTION_WONT_FIX,
+        self::STATUS_DONE => self::STATUS_DONE,
     ];
 }

@@ -2,6 +2,7 @@
 
 namespace BugTrackBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as GedmoAnnotations;
 
@@ -62,7 +63,22 @@ class Comment
      * @ORM\JoinColumn(name="issue_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
      */
     protected $issue;
-    
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="IssueActivity", mappedBy="comment")
+     */
+    protected $activities;
+
+    /**
+     * Comment constructor.
+     */
+    public function __construct()
+    {
+        $this->activities = new ArrayCollection();
+    }
+
     /**
      * Get id
      *
@@ -188,5 +204,38 @@ class Comment
     public function getIssue()
     {
         return $this->issue;
+    }
+
+    /**
+     * Add activity
+     *
+     * @param IssueActivity $activity
+     * @return Comment
+     */
+    public function addActivity(IssueActivity $activity)
+    {
+        $this->activities[] = $activity;
+
+        return $this;
+    }
+
+    /**
+     * Remove activity
+     *
+     * @param IssueActivity $activity
+     */
+    public function removeActivity(IssueActivity $activity)
+    {
+        $this->activities->removeElement($activity);
+    }
+
+    /**
+     * Get activities
+     *
+     * @return ArrayCollection
+     */
+    public function getActivities()
+    {
+        return $this->activities;
     }
 }

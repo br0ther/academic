@@ -62,6 +62,14 @@ class User extends BaseUser
      */
     protected $comments;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="IssueActivity", mappedBy="user")
+     */
+    protected $activities;
+
+
     public function __construct()
     {
         parent::__construct();
@@ -70,7 +78,7 @@ class User extends BaseUser
         $this->assignedIssues = new ArrayCollection();
         $this->projects = new ArrayCollection();
         $this->issues = new ArrayCollection();
-
+        $this->activities = new ArrayCollection();
     }
 
     /**
@@ -277,5 +285,38 @@ class User extends BaseUser
         }
 
         return $roleNames;
+    }
+
+    /**
+     * Add activity
+     *
+     * @param IssueActivity $activity
+     * @return Comment
+     */
+    public function addActivity(IssueActivity $activity)
+    {
+        $this->activities[] = $activity;
+
+        return $this;
+    }
+
+    /**
+     * Remove activity
+     *
+     * @param IssueActivity $activity
+     */
+    public function removeActivity(IssueActivity $activity)
+    {
+        $this->activities->removeElement($activity);
+    }
+
+    /**
+     * Get activities
+     *
+     * @return ArrayCollection
+     */
+    public function getActivities()
+    {
+        return $this->activities;
     }
 }

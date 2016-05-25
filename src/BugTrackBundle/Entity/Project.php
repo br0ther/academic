@@ -51,7 +51,6 @@ class Project
      *     minMessage="The code is too short. It must be at least 2 characters long",
      *     maxMessage="The name is too long"
      * )
-     * 
      */
     private $code;
 
@@ -78,6 +77,9 @@ class Project
      */
     protected $issues;
 
+    /**
+     * Project constructor.
+     */
     public function __construct()
     {
         $this->members = new ArrayCollection();
@@ -245,5 +247,14 @@ class Project
         }
         
         return $membersFullNames;
+    }
+
+    /**
+     * getTitle
+     * @return string
+     */
+    public function getTitle()
+    {
+        return sprintf('%s (%s)', $this->getLabel(), $this->getCode());
     }
 }

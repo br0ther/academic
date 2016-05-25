@@ -14,8 +14,9 @@ class Builder implements ContainerAwareInterface
 
     public function mainMenu(FactoryInterface $factory, array $options)
     {
-        $menu = $factory->createItem('root', ['navbar' => true]);
+        $em = $this->container->get('doctrine')->getManager();
 
+        $menu = $factory->createItem('root', ['navbar' => true]);
         $menu->addChild('Home', ['route' => 'homepage']);
 
         /*
@@ -23,17 +24,17 @@ class Builder implements ContainerAwareInterface
         $username = $this->container->get('security.context')->getToken()->getUser()->getUsername();
         */
 
+        //Projects dropdown
         $dropdown = $menu->addChild('Projects', [
             'dropdown' => true,
             'caret' => true,
         ]);
         $dropdown->addChild('Recent projects');
-        
-        $em = $this->container->get('doctrine')->getManager();
+
         $projects = $em->getRepository('BugTrackBundle:Project')->findBy([], ['id' => 'DESC'], 5);
 
         foreach ($projects as $project) {
-            $dropdown->addChild($project->getlabel(), [
+            $dropdown->addChild($project->getTitle(), [
                 'route' => 'project_view',
                 'routeParameters' => array('id' => $project->getId())
             ]);
@@ -43,8 +44,27 @@ class Builder implements ContainerAwareInterface
             'route' => 'project_create',
         ]);
 
-        $menu->addChild('Issues', ['route' => 'homepage']);
-        
+        //Issues dropdown
+        $dropdown = $menu->addChild('Issues', [
+            'dropdown' => true,
+            'caret' => true,
+        ]);
+
+        $dropdown->addChild('Recent issues');
+
+        $issues = $em->getRepository('BugTrackBundle:Issue')->findBy([], ['id' => 'DESC'], 5);
+
+        foreach ($issues as $issue) {
+            $dropdown->addChild($issue->getTitle(), [
+                'route' => 'issue_view',
+                'routeParameters' => array('id' => $issue->getId())
+            ]);
+        }
+        $dropdown->addChild('divider', ['divider' => true]);
+        $dropdown->addChild('Create', [
+            'route' => 'issue_create',
+        ]);
+
         $active = false;
         foreach ($menu->getChildren() as $item) {
             /** @var ItemInterface $item */

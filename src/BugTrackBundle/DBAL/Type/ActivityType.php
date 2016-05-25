@@ -8,7 +8,7 @@ namespace BugTrackBundle\DBAL\Type;
 class ActivityType extends AbstractEnumType
 {
     const ACTIVITY_ISSUE_ADDED = 'issue_added';
-    const ACTIVITY_STATUS_CHANGED = 'issue_status_changed';
+    const ACTIVITY_ISSUE_CHANGED = 'issue_changed';
     const ACTIVITY_COMMENT_ADDED = 'comment_added';
 
     /**
@@ -23,7 +23,7 @@ class ActivityType extends AbstractEnumType
      */
     protected static $choices = [
         self::ACTIVITY_ISSUE_ADDED => self::ACTIVITY_ISSUE_ADDED,
-        self::ACTIVITY_STATUS_CHANGED => self::ACTIVITY_STATUS_CHANGED,
+        self::ACTIVITY_ISSUE_CHANGED => self::ACTIVITY_ISSUE_CHANGED,
         self::ACTIVITY_COMMENT_ADDED => self::ACTIVITY_COMMENT_ADDED,
     ];
 }

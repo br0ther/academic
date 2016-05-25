@@ -2,6 +2,7 @@
 
 namespace BugTrackBundle\Entity;
 
+use BugTrackBundle\Validator\Constraints as BugTrackConstraints;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as GedmoAnnotations;
@@ -11,6 +12,9 @@ use Gedmo\Mapping\Annotation as GedmoAnnotations;
  *
  * @ORM\Table(name="issue")
  * @ORM\Entity(repositoryClass="BugTrackBundle\Repository\IssueRepository")
+ *
+ * @BugTrackConstraints\ParentSubtask()
+ * @BugTrackConstraints\ResolutionNonResolved()
  */
 class Issue
 {
@@ -68,7 +72,7 @@ class Issue
     /**
      * @var string
      *
-     * @ORM\Column(name="resolution", type="resolution_type", length=20)
+     * @ORM\Column(name="resolution", type="resolution_type", length=20, nullable=true)
      */
     protected $resolution;
     
@@ -582,5 +586,37 @@ class Issue
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Set project
+     *
+     * @param Project $project
+     * @return Issue
+     */
+    public function setProject(Project $project = null)
+    {
+        $this->project = $project;
+
+        return $this;
+    }
+
+    /**
+     * Get project
+     *
+     * @return Project
+     */
+    public function getProject()
+    {
+        return $this->project;
+    }
+
+    /**
+     * getTitle
+     * @return string
+     */
+    public function getTitle()
+    {
+        return sprintf('[%s] %s', $this->getCode(), $this->getSummary());
     }
 }

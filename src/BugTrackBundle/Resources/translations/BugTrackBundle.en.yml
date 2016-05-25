@@ -1,3 +1,7 @@
 project:
     create: Create project
     edit: Edit project
+
+issue:
+    create: Create issue
+    edit: Edit issue

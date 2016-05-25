@@ -31,9 +31,23 @@ class IssueActivity
     /**
      * @var string
      *
-     * @ORM\Column(name="body", type="text", nullable=true)
+     * @ORM\Column(name="changed_field", type="string", length=255, nullable=true)
      */
-    private $body;
+    protected $changedField;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="old_value", type="string", length=255, nullable=true)
+     */
+    protected $oldValue;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="new_value", type="string", length=255, nullable=true)
+     */
+    protected $newValue;
 
     /**
      * @var Issue
@@ -54,7 +68,7 @@ class IssueActivity
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="generatedActivities")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="activities")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $user;
@@ -83,6 +97,7 @@ class IssueActivity
      * Set type
      *
      * @param string $type
+     * 
      * @return IssueActivity
      */
     public function setType($type)
@@ -91,33 +106,12 @@ class IssueActivity
 
         return $this;
     }
-
-    /**
-     * Set body
-     *
-     * @param string $body
-     * @return IssueActivity
-     */
-    public function setBody($body)
-    {
-        $this->body = $body;
-
-        return $this;
-    }
-
-    /**
-     * Get body
-     *
-     * @return string
-     */
-    public function getBody()
-    {
-        return $this->body;
-    }
+    
     /**
      * Set issue
      *
      * @param Issue $issue
+     * 
      * @return IssueActivity
      */
     public function setIssue(Issue $issue = null)
@@ -141,6 +135,7 @@ class IssueActivity
      * Set comment
      *
      * @param Comment $comment
+     * 
      * @return IssueActivity
      */
     public function setComment(Comment $comment = null)
@@ -164,6 +159,7 @@ class IssueActivity
      * Set user
      *
      * @param User $user
+     * 
      * @return IssueActivity
      */
     public function setUser(User $user = null)
@@ -181,5 +177,77 @@ class IssueActivity
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Get ChangedField
+     * 
+     * @return string
+     */
+    public function getChangedField()
+    {
+        return $this->changedField;
+    }
+
+    /**
+     * Set ChangedField
+     * 
+     * @param string $changedField
+     * 
+     * @return IssueActivity
+     */
+    public function setChangedField($changedField)
+    {
+        $this->changedField = $changedField;
+
+        return $this;
+    }
+
+    /**
+     * Get OldValue
+     * 
+     * @return string
+     */
+    public function getOldValue()
+    {
+        return $this->oldValue;
+    }
+
+    /**
+     * Set OldValue
+     * 
+     * @param string $oldValue
+     * 
+     * @return IssueActivity
+     */
+    public function setOldValue($oldValue)
+    {
+        $this->oldValue = $oldValue;
+
+        return $this;
+    }
+
+    /**
+     * Get NewValue
+     * 
+     * @return string
+     */
+    public function getNewValue()
+    {
+        return $this->newValue;
+    }
+
+    /**
+     * Set NewValue
+     * 
+     * @param string $newValue
+     * 
+     * @return IssueActivity
+     */
+    public function setNewValue($newValue)
+    {
+        $this->newValue = $newValue;
+
+        return $this;
     }
 }
