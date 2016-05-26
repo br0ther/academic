@@ -7,10 +7,10 @@ use Doctrine\Common\Persistence\ObjectManager;
 use BugTrackBundle\Entity\Project;
 
 /**
- * Class LoadProjectData
+ * Class ProjectsData
  * @package BugTrackBundle\DataFixtures\ORM
  */
-class LoadProjectData extends AbstractFixture implements OrderedFixtureInterface
+class ProjectsData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * @param ObjectManager $manager

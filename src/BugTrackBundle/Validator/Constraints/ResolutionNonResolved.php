@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class ResolutionNonResolved extends Constraint
 {
-    public $message = 'Resolution provided with status Resolved';
+    public $message = 'Resolution should provide with status Resolved';
 
     public function getTargets()
     {

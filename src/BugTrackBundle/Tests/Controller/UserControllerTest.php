@@ -31,7 +31,7 @@ class UserControllerTest extends WebTestCase
         $this->client = $this->makeClient();
 
         $this->fixtures = $this->loadFixtures([
-            '\BugTrackBundle\DataFixtures\ORM\LoadUserData',
+            '\BugTrackBundle\DataFixtures\ORM\UsersData',
         ])->getReferenceRepository();
     }
     

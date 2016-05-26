@@ -23,8 +23,8 @@ class ProjectControllerTest extends WebTestCase
     public function setUp()
     {
         $this->fixtures = $this->loadFixtures([
-            '\BugTrackBundle\DataFixtures\ORM\LoadUserData',
-            '\BugTrackBundle\DataFixtures\ORM\LoadProjectData',
+            '\BugTrackBundle\DataFixtures\ORM\UsersData',
+            '\BugTrackBundle\DataFixtures\ORM\ProjectsData',
         ])->getReferenceRepository();
     }
 

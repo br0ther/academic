@@ -27,6 +27,16 @@
                     <div class="col-sm-9"><a href="{{ path('issue_view', {'id': issue.parentIssue.id}) }}">{{ issue.parentIssue.getTitle() }}</a></div>
                 </div>
             {% endif %}
+            {% if issue.childIssues is not empty %}
+                <div class="form-group">
+                    <label class="col-sm-3">Subtasks</label>
+                    {% for child in issue.childIssues %}
+                        <div class="col-sm-9">
+                            <a href="{{ path('issue_view', {'id': child.id}) }}">{{ child.getTitle() }}</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
             <div class="form-group">
                 <label class="col-sm-3">Type</label>

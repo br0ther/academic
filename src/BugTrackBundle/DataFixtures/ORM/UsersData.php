@@ -9,10 +9,10 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class LoadUserData
+ * Class UsersData
  * @package BugTrackBundle\DataFixtures\ORM
  */
-class LoadUserData extends AbstractFixture implements ContainerAwareInterface, OrderedFixtureInterface
+class UsersData extends AbstractFixture implements ContainerAwareInterface, OrderedFixtureInterface
 {
     /**
      * @var ContainerInterface
@@ -67,12 +67,24 @@ class LoadUserData extends AbstractFixture implements ContainerAwareInterface, O
             ->setFullName('Andy Operator')
             ->setEnabled(true)
             ->addRole('ROLE_OPERATOR');
-
         $fosUserManager->updateUser($userOperator);
+
+        /** @var User $userOperator2 */
+        $userOperator2 = $fosUserManager->createUser();
+        $userOperator2
+            ->setEmail('operator2@test.com')
+            ->setUsername('operator2')
+            ->setPlainPassword('123456')
+            ->setFullName('Bob Operator')
+            ->setEnabled(true)
+            ->addRole('ROLE_OPERATOR');
+        
+        $fosUserManager->updateUser($userOperator2);
 
         $this->addReference('userAdmin', $userAdmin);
         $this->addReference('userManager', $userManager);
         $this->addReference('userOperator', $userOperator);
+        $this->addReference('userOperator2', $userOperator2);
     }
 
     /**

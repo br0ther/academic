@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class ParentSubtask extends Constraint
 {
-    public $message = 'Type Subtask provided with Parent issue';
+    public $message = 'Type Subtask should provide with Parent issue';
 
     public function getTargets()
     {

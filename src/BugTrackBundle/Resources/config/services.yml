@@ -1,6 +1,6 @@
-services:
-    bug_track.form.type.issue:
-        class: BugTrackBundle\Form\Type\IssueFormType
-        arguments: ["@doctrine.orm.entity_manager"]
-        tags:
-            - { name: form.type }
+#services:
+#    bug_track.form.type.issue:
+#        class: BugTrackBundle\Form\Type\IssueFormType
+#        arguments: ["@doctrine.orm.entity_manager"]
+#        tags:
+#            - { name: form.type }

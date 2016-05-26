@@ -6,12 +6,16 @@ use BugTrackBundle\Validator\Constraints as BugTrackConstraints;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as GedmoAnnotations;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Issue
  *
  * @ORM\Table(name="issue")
  * @ORM\Entity(repositoryClass="BugTrackBundle\Repository\IssueRepository")
+ * 
+ * @UniqueEntity(fields="summary", message="Sorry, this summary is already in use.")
+ * @UniqueEntity(fields="code", message="Sorry, this code is already in use.")
  *
  * @BugTrackConstraints\ParentSubtask()
  * @BugTrackConstraints\ResolutionNonResolved()

@@ -9,7 +9,7 @@ use BugTrackBundle\Entity\Issue;
 use BugTrackBundle\Entity\Project;
 use BugTrackBundle\Entity\User;
 use BugTrackBundle\Form\Subscriber\ShowFieldSubscriber;
-use Doctrine\ORM\EntityManager;
+use BugTrackBundle\Repository\IssueRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -24,20 +24,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class IssueFormType extends AbstractType
 {
-    /**
-     * @var EntityManager
-     */
-    protected $entityManager;
-
-    /**
-     * IssueFormType constructor.
-     * @param $entityManager
-     */
-    public function __construct($entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-
     /**
      * @param OptionsResolver $resolver
      */
@@ -90,7 +76,9 @@ class IssueFormType extends AbstractType
                 'choice_label' => 'getTitle',
                 'required' => false,
                 'class' => Issue::class,
-                'choices' => $this->getIssuesStoryType()
+                'query_builder' => function (IssueRepository $er) {
+                    return $er->getIssuesStoryQueryBuilder();
+                },
             ])
             ->add('reporter', EntityType::class, [
                 'choice_label' => 'fullName',
@@ -104,18 +92,5 @@ class IssueFormType extends AbstractType
         ]);
 
         $builder->addEventSubscriber(new ShowFieldSubscriber());
-    }
-
-    /**
-     * @return array|Issue[]
-     */
-    public function getIssuesStoryType()
-    {
-        //ToDo: make same with projects: Operator can't access projects and issues if he is not a member of this project
-
-        return $this->entityManager->getRepository('BugTrackBundle:Issue')->findBy(
-            ['type' => IssueType::TYPE_TASK],
-            ['id' => 'DESC']
-        );
     }
 }
