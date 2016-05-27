@@ -11,6 +11,8 @@
 {% endblock head_script %}
 
 {% block body %}
+    {% import "tables.html.twig" as table %}
+
     {% block navbar %}
         {% if app.user and app.request.attributes.get('_route') != 'fos_user_registration_confirmed' %}
             {% embed 'navbar.html.twig' with { inverse: false, id: 'navbar' } %}

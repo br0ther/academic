@@ -2,6 +2,8 @@
 
 namespace BugTrackBundle\Controller;
 
+use BugTrackBundle\Event\BugTrackEvents;
+use BugTrackBundle\Event\IssueEvent;
 use BugTrackBundle\Form\Type\IssueFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -66,6 +68,12 @@ class IssueController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($issue);
+
+            $this->get('event_dispatcher')->dispatch(
+                BugTrackEvents::ISSUE_COLLABORATORS_CHECK,
+                new IssueEvent($issue)
+            );
+
             $entityManager->flush();
 
             return $this->redirectToRoute('issue_view', ['id' => $issue->getId()]);
@@ -100,6 +108,12 @@ class IssueController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            $this->get('event_dispatcher')->dispatch(
+                BugTrackEvents::ISSUE_COLLABORATORS_CHECK,
+                new IssueEvent($issue)
+            );
+
             $entityManager->flush();
 
             return $this->redirectToRoute('issue_view', ['id' => $issue->getId()]);

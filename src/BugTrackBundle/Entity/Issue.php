@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * Issue
  *
  * @ORM\Table(name="issue")
- * @ORM\Entity(repositoryClass="BugTrackBundle\Repository\IssueRepository")
+ * @ORM\Entity(repositoryClass="BugTrackBundle\Entity\Repository\IssueRepository")
  * 
  * @UniqueEntity(fields="summary", message="Sorry, this summary is already in use.")
  * @UniqueEntity(fields="code", message="Sorry, this code is already in use.")
@@ -622,5 +622,37 @@ class Issue
     public function getTitle()
     {
         return sprintf('[%s] %s', $this->getCode(), $this->getSummary());
+    }
+
+    /**
+     * Get CollaboratorsFullNames
+     *
+     * @return array
+     */
+    public function getCollaboratorsFullNames()
+    {
+        $collaborators = [];
+
+        /** @var User $member */
+        foreach ($this->getCollaborators() as $collaborator) {
+            $collaborators[] = $collaborator->getFullName();
+        }
+
+        return $collaborators;
+    }
+
+    /**
+     * Add NotExistsCollaborator
+     *
+     * @param User $collaborator
+     * @return Issue
+     */
+    public function addNotExistsCollaborator(User $collaborator)
+    {
+        if ($collaborator && !$this->getCollaborators()->contains($collaborator)) {
+            $this->addCollaborator($collaborator);
+        }
+
+        return $this;
     }
 }

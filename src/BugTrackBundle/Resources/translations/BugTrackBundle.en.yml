@@ -3,5 +3,16 @@ project:
     edit: Edit project
 
 issue:
+    created: Created
+    body: Title
+    actions: Actions
+    info: Issue information
     create: Create issue
     edit: Edit issue
+
+comment:
+    created: Created
+    body: Body
+    actions: Actions
+    create: Create comment
+    edit: Edit comment

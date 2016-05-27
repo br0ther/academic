@@ -1,17 +1,19 @@
 {% extends "layout.html.twig" %}
 
+{% trans_default_domain 'BugTrackBundle' %}
+
 {% block head_style %}
     {{ parent() }}
 {% endblock %}
 
 {% block title %}
-    Project information
+    {{ 'issue.info'|trans }}
 {% endblock %}
 
 {% block content %}
     <div class="form-horizontal">
         <fieldset>
-            <legend>Issue information</legend>
+            <legend>{{ 'issue.info'|trans }}</legend>
             <div class="form-group">
                 <h3 class="col-sm-12">{{ issue.getTitle() }}</h3>
             </div>
@@ -31,6 +33,8 @@
                 <div class="form-group">
                     <label class="col-sm-3">Subtasks</label>
                     {% for child in issue.childIssues %}
+                        <div class="col-sm-3">
+                        </div>
                         <div class="col-sm-9">
                             <a href="{{ path('issue_view', {'id': child.id}) }}">{{ child.getTitle() }}</a>
                         </div>
@@ -76,7 +80,7 @@
 
             <div class="form-group">
                 <label class="col-sm-3">Description</label>
-                <div class="col-sm-9">{{ issue.description | nl2br }}</div>
+                <div class="col-sm-9">{{ issue.description|nl2br }}</div>
             </div>
 
             <div class="form-group">
@@ -90,6 +94,21 @@
             </div>
 
             <div class="form-group">
+                <label class="col-sm-3">Collaborators</label>
+                <div class="col-sm-4">{{ issue.getCollaboratorsFullNames|join(', ') }}</div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3">Comments</label>
+                <div class="col-sm-9">
+                    {{ table.commentsTable(issue.comments) }}
+                    <a href="{{ path('comment_create', {'id': issue.id}) }}" class="btn btn-info" role="button">
+                        {{ 'comment.create'|trans }}
+                    </a>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="col-sm-9">
                     <a href="{{ path('issue_edit', {'id': issue.id}) }}" class="btn btn-info" role="button">
                         Edit
@@ -97,5 +116,6 @@
                 </div>
             </div>
         </fieldset>
+
     </div>
 {% endblock content %}

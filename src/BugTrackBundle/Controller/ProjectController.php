@@ -35,7 +35,6 @@ class ProjectController extends Controller
 
         return [
             'project' => $project,
-            'members' => implode(', ', $project->getMembersFullNames()),
         ];
     }
 

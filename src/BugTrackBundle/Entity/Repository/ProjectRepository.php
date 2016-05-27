@@ -1,6 +1,6 @@
 <?php
 
-namespace BugTrackBundle\Repository;
+namespace BugTrackBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 

@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Project
  *
  * @ORM\Table(name="project")
- * @ORM\Entity(repositoryClass="BugTrackBundle\Repository\ProjectRepository")
+ * @ORM\Entity(repositoryClass="BugTrackBundle\Entity\Repository\ProjectRepository")
  * @UniqueEntity(fields="label", message="Sorry, this label is already in use.")
  * @UniqueEntity(fields="code", message="Sorry, this code is already in use.")
  */

@@ -1,6 +1,12 @@
-#services:
+services:
 #    bug_track.form.type.issue:
 #        class: BugTrackBundle\Form\Type\IssueFormType
 #        arguments: ["@doctrine.orm.entity_manager"]
 #        tags:
 #            - { name: form.type }
+    listener.issue:
+        class: BugTrackBundle\EventListener\IssueEventListener
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+        tags:
+            - { name: kernel.event_subscriber }
