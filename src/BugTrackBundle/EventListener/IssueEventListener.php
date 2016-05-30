@@ -4,17 +4,11 @@ namespace BugTrackBundle\EventListener;
 
 use BugTrackBundle\Event\CommentEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Doctrine\ORM\EntityManager;
 use BugTrackBundle\Event\BugTrackEvents;
 use BugTrackBundle\Event\IssueEvent;
 
 class IssueEventListener implements EventSubscriberInterface
 {
-    /**
-     * @var EntityManager
-     */
-    protected $em;
-
     /**
      * Returns an array of event names this subscriber wants to listen to.
      *
@@ -37,9 +31,15 @@ class IssueEventListener implements EventSubscriberInterface
     {
         $issue = $event->getIssue();
 
-        $issue->addNotExistsCollaborator($issue->getReporter());
-        $issue->addNotExistsCollaborator($issue->getAssignee());
+        if ($issue->getReporter()) {
+            $issue->addNotExistsCollaborator($issue->getReporter());
+        }
+
+        if ($issue->getAssignee()) {
+            $issue->addNotExistsCollaborator($issue->getAssignee());
+        }
     }
+    
     /**
      * Processes commentCollaboratorsCheck event.
      *
@@ -49,7 +49,9 @@ class IssueEventListener implements EventSubscriberInterface
     {
         $comment = $event->getComment();
         $issue = $comment->getIssue();
-        
-        $issue->addNotExistsCollaborator($comment->getAuthor());
+
+        if ($comment->getAuthor()) {
+            $issue->addNotExistsCollaborator($comment->getAuthor());
+        }
     }
 }

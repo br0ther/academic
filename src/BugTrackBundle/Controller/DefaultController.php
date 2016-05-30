@@ -19,10 +19,12 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        $userIssues = $this->getDoctrine()->getRepository('BugTrackBundle:Issue')
+            ->getIssuesForMainPage($this->getUser());
 
         return [
             'projects' => [],
-            'issues' => [],
+            'issues' => $userIssues,
         ];
     }
 }
