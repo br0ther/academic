@@ -1,9 +1,11 @@
 credential:
     edit_profile: You haven't permissions to edit user profile
     view_project: You haven't permissions to view this project
-    edit_project: You haven't permissions to edit project
+    edit_project: You haven't permissions to edit this project
     create_project: You haven't permissions to create project
     create_issue: You haven't permissions to create issue
+    view_issue: You haven't permissions to view this issue
+    edit_issue: You haven't permissions to edit this issue
 
 user:
     not_found: User not found!

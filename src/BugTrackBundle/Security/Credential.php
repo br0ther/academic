@@ -14,6 +14,14 @@ final class Credential
     const EDIT_PROJECT = 'edit_project';
     const CREATE_PROJECT = 'create_project';
     
-    /* Issue */    
+    /* Issue */
     const CREATE_ISSUE = 'create_issue';
+    const VIEW_ISSUE = 'view_issue';
+    const EDIT_ISSUE = 'edit_issue';
+
+    /* Comment */
+    const CREATE_COMMENT = 'create_comment';
+    const EDIT_COMMENT = 'edit_comment';
+    const DELETE_COMMENT = 'delete_comment';
+    
 }

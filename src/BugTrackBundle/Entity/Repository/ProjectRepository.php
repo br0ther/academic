@@ -3,6 +3,9 @@
 namespace BugTrackBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use BugTrackBundle\Entity\Project;
+use BugTrackBundle\Entity\User;
+use Doctrine\ORM\Query\Expr;
 
 /**
  * ProjectRepository
@@ -12,4 +15,32 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProjectRepository extends EntityRepository
 {
+    /**
+     * Get user recent projects
+     * @param User $user
+     * @param integer $cntProjects
+     * 
+     * @return Project[]
+     */
+    public function getUserRecentProjects(User $user, $cntProjects)
+    {
+
+        if ($user->hasRole('ROLE_MANAGER') or $user->hasRole('ROLE_ADMIN')) {
+            $projects = $this->findBy([], ['id' => 'DESC'], $cntProjects);
+        } else {
+            $projects = $this->createQueryBuilder('p')
+                ->select('p')
+                ->innerJoin('p.members', 'm')
+                ->where('m.id = :userId')
+                ->setParameters([
+                    'userId' => $user->getId(),
+                ])
+                ->orderBy('p.id', 'DESC')
+                ->setMaxResults($cntProjects)
+                ->getQuery()
+                ->getResult();
+        }
+
+        return $projects;
+    }
 }

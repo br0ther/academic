@@ -29,7 +29,7 @@ class Builder implements ContainerAwareInterface
         ]);
         $dropdown->addChild('Recent projects');
 
-        $projects = $em->getRepository('BugTrackBundle:Project')->findBy([], ['id' => 'DESC'], 5);
+        $projects = $em->getRepository('BugTrackBundle:Project')->getUserRecentProjects($user, 5);
 
         foreach ($projects as $project) {
             $dropdown->addChild($project->getTitle(), [
@@ -53,7 +53,7 @@ class Builder implements ContainerAwareInterface
 
         $dropdown->addChild('Recent issues');
 
-        $issues = $em->getRepository('BugTrackBundle:Issue')->findBy([], ['id' => 'DESC'], 5);
+        $issues = $em->getRepository('BugTrackBundle:Issue')->getUserRecentIssues($user, 5);
 
         foreach ($issues as $issue) {
             $dropdown->addChild($issue->getTitle(), [

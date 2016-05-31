@@ -16,10 +16,12 @@
                 </td>
                 <td class="col-md-5">{{ comment.body|nl2br }}</td>
                 <td class="col-md-2">
-                    <a href="{{ path('comment_edit', {'id': comment.id}) }}" class="btn btn-default" role="button">
+                    <a href="{{ path('comment_edit', {'id': comment.id}) }}"
+                       class="btn btn-default {{ not is_granted('edit_comment', comment) ? 'disabled' : ''}}" role="button">
                         Edit
                     </a>
-                    <a href="{{ path('comment_delete', {'id': comment.id}) }}" class="btn btn-default" role="button">
+                    <a href="{{ path('comment_delete', {'id': comment.id}) }}"
+                       class="btn btn-default {{ not is_granted('delete_comment', comment) ? 'disabled' : ''}}" role="button">
                         Delete
                     </a>
                 </td>
@@ -45,10 +47,12 @@
                 </td>
                 <td class="col-md-5">{{ issue.getTitle }}</td>
                 <td class="col-md-2">
-                    <a href="{{ path('issue_view', {'id': issue.id}) }}" class="btn btn-default" role="button">
+                    <a href="{{ path('issue_view', {'id': issue.id}) }}"
+                       class="btn btn-default {{ not is_granted('view_issue', issue) ? 'disabled' : ''}}" role="button">
                         View
                     </a>
-                    <a href="{{ path('issue_edit', {'id': issue.id}) }}" class="btn btn-default" role="button">
+                    <a href="{{ path('issue_edit', {'id': issue.id}) }}"
+                       class="btn btn-default {{ not is_granted('edit_issue', issue) ? 'disabled' : ''}}" role="button">
                         Edit
                     </a>
                 </td>

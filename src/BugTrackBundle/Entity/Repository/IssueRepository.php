@@ -19,9 +19,10 @@ class IssueRepository extends EntityRepository
      *
      * @return QueryBuilder
      */
-    public function getIssuesStoryQueryBuilder()
+    public function getIssuesStoryQB()
     {
         $qb = $this->createQueryBuilder('i')
+            ->select('i')
             ->where('i.type = :type')
             ->setParameter('type', IssueType::TYPE_STORY)
             ->orderBy('i.id', 'DESC');
@@ -30,12 +31,16 @@ class IssueRepository extends EntityRepository
     }
 
     /**
+     * Gets Issues for main page
+     *
      * @param User $user
-     * @return Issue[]
+     * 
+     * @return QueryBuilder
      */
-    public function getIssuesForMainPage(User $user)
+    public function getIssuesForMainPageQB(User $user)
     {
         $qb = $this->createQueryBuilder('i')
+            ->select('i')
             ->innerJoin('i.collaborators', 'u')
             ->where('u.id = :userId')
             ->andWhere('i.status IN(:status)')
@@ -45,5 +50,30 @@ class IssueRepository extends EntityRepository
             ]);
         
         return $qb;
+    }
+
+    /**
+     * Gets Issues for main page
+     *
+     * @param User $user
+     * @param integer $cntIssues
+     * 
+     * @return Issue[]
+     */
+    public function getUserRecentIssues(User $user, $cntIssues)
+    {
+        $issues = $this->createQueryBuilder('i')
+            ->select('i')
+            ->innerJoin('i.collaborators', 'u')
+            ->where('u.id = :userId')
+            ->setParameters([
+                'userId' => $user->getId(),
+            ])
+            ->orderBy('i.id', 'DESC')
+            ->setMaxResults($cntIssues)
+            ->getQuery()
+            ->getResult();
+
+        return $issues;
     }
 }

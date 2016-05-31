@@ -4,7 +4,7 @@ namespace BugTrackBundle\Security\Voter;
 
 
 use BugTrackBundle\DBAL\Type\UserType;
-use BugTrackBundle\Entity\Issue;
+use BugTrackBundle\Entity\Comment;
 use BugTrackBundle\Entity\User;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -102,8 +102,8 @@ abstract class AbstractUserVoter extends Voter
             case $object instanceof User:
                 $ownerOfObject = $object;
                 break;
-            case $object instanceof Issue:
-                $ownerOfObject = $object->getAssignee();
+            case $object instanceof Comment:
+                $ownerOfObject = $object->getAuthor();
                 break;
             default:
                 $msg = 'Unsupported object for retrieving owning user. Given type: ' . gettype($object);

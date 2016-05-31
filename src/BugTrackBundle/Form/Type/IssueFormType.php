@@ -78,7 +78,7 @@ class IssueFormType extends AbstractType
                 'required' => false,
                 'class' => Issue::class,
                 'query_builder' => function (IssueRepository $er) {
-                    return $er->getIssuesStoryQueryBuilder();
+                    return $er->getIssuesStoryQB();
                 },
             ])
             ->add('reporter', EntityType::class, [

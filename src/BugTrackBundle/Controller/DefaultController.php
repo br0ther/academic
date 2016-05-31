@@ -20,7 +20,9 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $userIssues = $this->getDoctrine()->getRepository('BugTrackBundle:Issue')
-            ->getIssuesForMainPage($this->getUser());
+            ->getIssuesForMainPageQB($this->getUser())
+            ->getQuery()
+            ->getResult();
 
         return [
             'projects' => [],

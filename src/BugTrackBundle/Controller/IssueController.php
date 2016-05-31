@@ -6,6 +6,7 @@ use BugTrackBundle\Entity\Project;
 use BugTrackBundle\Event\BugTrackEvents;
 use BugTrackBundle\Event\IssueEvent;
 use BugTrackBundle\Form\Type\IssueFormType;
+use BugTrackBundle\Security\Credential;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -35,7 +36,13 @@ class IssueController extends Controller
      */
     public function viewAction(Issue $issue)
     {
-        //ToDo: add permissions & voter later
+        $translator = $this->get('translator');
+
+        $this->denyAccessUnlessGranted(
+            Credential::VIEW_ISSUE,
+            $issue,
+            $translator->trans('credential.view_issue', [], 'BugTrackBundle')
+        );
 
         return [
             'issue' => $issue,
@@ -57,14 +64,21 @@ class IssueController extends Controller
      */
     public function createAction(Project $project, Request $request)
     {
-        //ToDo: add permissions & voter later
+        $translator = $this->get('translator');
+
+        $this->denyAccessUnlessGranted(
+            Credential::CREATE_ISSUE,
+            $project,
+            $translator->trans('credential.create_issue', [], 'BugTrackBundle')
+        );
+
         $entityManager = $this->getDoctrine()->getManager();
 
         $issue = new Issue();
         $issue->setProject($project);
         $issue->setReporter($this->getUser());
 
-        $pageLabel = $this->get('translator')->trans('issue.create', [], 'BugTrackBundle');
+        $pageLabel = $translator->trans('issue.create', [], 'BugTrackBundle');
 
         $form = $this->createForm(IssueFormType::class, $issue, [
             'label' => $pageLabel,
@@ -106,9 +120,15 @@ class IssueController extends Controller
      */
     public function editAction(Issue $issue, Request $request)
     {
-        //ToDo: add permissions & voter later
+        $translator = $this->get('translator');
 
-        $pageLabel = $this->get('translator')->trans('issue.edit', [], 'BugTrackBundle');
+        $this->denyAccessUnlessGranted(
+            Credential::EDIT_ISSUE,
+            $issue,
+            $translator->trans('credential.edit_issue', [], 'BugTrackBundle')
+        );
+
+        $pageLabel = $translator->trans('issue.edit', [], 'BugTrackBundle');
         $form = $this->createForm(IssueFormType::class, $issue, ['label' => $pageLabel]);
 
         $form->handleRequest($request);

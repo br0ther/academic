@@ -7,6 +7,7 @@ use BugTrackBundle\Entity\Issue;
 use BugTrackBundle\Event\BugTrackEvents;
 use BugTrackBundle\Event\CommentEvent;
 use BugTrackBundle\Form\Type\CommentFormType;
+use BugTrackBundle\Security\Credential;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -30,12 +31,20 @@ class CommentController extends Controller
      */
     public function createAction(Issue $issue, Request $request)
     {
+        $translator = $this->get('translator');
+
+        $this->denyAccessUnlessGranted(
+            Credential::CREATE_COMMENT,
+            $issue,
+            $translator->trans('credential.create_issue', [], 'BugTrackBundle')
+        );
+
         $comment = new Comment();
         $comment->setIssue($issue);
 
         //ToDo: add permissions & voter later
         $comment->setAuthor($this->getUser());
-        $pageLabel = $this->get('translator')->trans('comment.create', [], 'BugTrackBundle');
+        $pageLabel = $translator->trans('comment.create', [], 'BugTrackBundle');
 
         $form = $this->createForm(CommentFormType::class, $comment, ['label' => $pageLabel]);
 
@@ -75,8 +84,15 @@ class CommentController extends Controller
      */
     public function editAction(Comment $comment, Request $request)
     {
-        //ToDo: add permissions & voter later
-        $pageLabel = $this->get('translator')->trans('comment.edit', [], 'BugTrackBundle');
+        $translator = $this->get('translator');
+
+        $this->denyAccessUnlessGranted(
+            Credential::EDIT_COMMENT,
+            $comment,
+            $translator->trans('credential.create_issue', [], 'BugTrackBundle')
+        );
+
+        $pageLabel = $translator->trans('comment.edit', [], 'BugTrackBundle');
 
         $form = $this->createForm(CommentFormType::class, $comment, ['label' => $pageLabel]);
 
@@ -112,7 +128,13 @@ class CommentController extends Controller
      */
     public function deleteAction(Comment $comment)
     {
-        //ToDo: add permissions & voter later
+        $translator = $this->get('translator');
+
+        $this->denyAccessUnlessGranted(
+            Credential::DELETE_COMMENT,
+            $comment,
+            $translator->trans('credential.create_issue', [], 'BugTrackBundle')
+        );
         
         $issue = $comment->getIssue();
 

@@ -10,12 +10,9 @@
 
 {% block content %}
     <div class="form-group">
-        <label class="col-sm-3">Issues</label>
+        <label class="col-sm-3">My Opened Issues</label>
         <div class="col-sm-9">
             {{ table.issuesTable(issues) }}
-            {#<a href="{{ path('issue_create') }}" class="btn btn-info" role="button">#}
-                {#{{ 'issue.create'|trans }}#}
-            {#</a>#}
         </div>
     </div>
 
