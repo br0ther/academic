@@ -4,6 +4,7 @@ namespace BugTrackBundle\Controller;
 
 use BugTrackBundle\Entity\User;
 use BugTrackBundle\Form\Type\UserFormType;
+use BugTrackBundle\Security\Credential;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -34,13 +35,22 @@ class UserController extends Controller
             $user = $this->getDoctrine()->getRepository('BugTrackBundle:User')->findOneById($id);
         }
 
+        $translator = $this->get('translator');
+
         if (empty($user)) {
-            throw $this->createNotFoundException('User not found');
+            throw $this->createNotFoundException($translator->trans('user.not_found', [], 'BugTrackBundle'));
         }
 
-        //ToDo: add permissions & voter later
+        $this->denyAccessUnlessGranted(
+            Credential::EDIT_PROFILE,
+            $user,
+            $translator->trans('credential.edit_profile', [], 'BugTrackBundle')
+        );
 
-        $form = $this->createForm(new UserFormType(), $user, ['label' => 'Edit profile']);
+        $this->get('bug_track.form.type.user')->setCanEditRoles($this->isGranted(Credential::EDIT_ROLES, $user));
+        $form = $this->createForm(UserFormType::class, $user, [
+            'label' => $translator->trans('user.edit', [], 'BugTrackBundle'),
+        ]);
 
         $form->handleRequest($request);
 
@@ -74,8 +84,10 @@ class UserController extends Controller
             $user = $userRepository->findOneById($id);
         }
 
+        $translator = $this->get('translator');
+
         if (empty($user)) {
-            throw $this->createNotFoundException('User not found');
+            throw $this->createNotFoundException($translator->trans('user.not_found', [], 'BugTrackBundle'));
         }
 
         //ToDo: add permissions

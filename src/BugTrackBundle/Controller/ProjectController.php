@@ -2,6 +2,7 @@
 
 namespace BugTrackBundle\Controller;
 
+use BugTrackBundle\Security\Credential;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -31,7 +32,13 @@ class ProjectController extends Controller
      */
     public function viewAction(Project $project)
     {
-        //ToDo: add permissions & voter later
+        $translator = $this->get('translator');
+
+        $this->denyAccessUnlessGranted(
+            Credential::VIEW_PROJECT,
+            $project,
+            $translator->trans('credential.view_project', [], 'BugTrackBundle')
+        );
 
         return [
             'project' => $project,
@@ -50,7 +57,13 @@ class ProjectController extends Controller
      */
     public function createAction(Request $request)
     {
-        //ToDo: add permissions & voter later
+        $translator = $this->get('translator');
+
+        $this->denyAccessUnlessGranted(
+            Credential::CREATE_PROJECT,
+            $this->getUser(),
+            $translator->trans('credential.create_project', [], 'BugTrackBundle')
+        );
         
         $project = new Project();
         $pageLabel = $this->get('translator')->trans('project.create', [], 'BugTrackBundle');
@@ -86,9 +99,15 @@ class ProjectController extends Controller
      */
     public function editAction(Project $project, Request $request)
     {
-        //ToDo: add permissions & voter later
+        $translator = $this->get('translator');
 
-        $pageLabel = $this->get('translator')->trans('project.edit', [], 'BugTrackBundle');
+        $this->denyAccessUnlessGranted(
+            Credential::EDIT_PROJECT,
+            $project,
+            $translator->trans('credential.edit_project', [], 'BugTrackBundle')
+        );
+
+        $pageLabel = $translator->trans('project.edit', [], 'BugTrackBundle');
         $form = $this->createForm(ProjectFormType::class, $project, ['label' => $pageLabel]);
 
         $form->handleRequest($request);

@@ -18,6 +18,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class UserFormType extends AbstractType
 {
     /**
+     * Can edit roles ?
+     * @var boolean
+     */
+    private $canEditRoles = false;
+    
+    /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
@@ -43,6 +49,23 @@ class UserFormType extends AbstractType
                 'choices' => array_flip(UserType::getChoices()),
                 'choices_as_values' => true,
                 'multiple' => true,
+                'disabled' => !$this->isCanEditRoles()
             ]);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isCanEditRoles()
+    {
+        return $this->canEditRoles;
+    }
+
+    /**
+     * @param boolean $canEditRoles
+     */
+    public function setCanEditRoles($canEditRoles)
+    {
+        $this->canEditRoles = $canEditRoles;
     }
 }

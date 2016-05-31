@@ -2,6 +2,7 @@
 
 namespace BugTrackBundle\Menu;
 
+use BugTrackBundle\Security\Credential;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -15,14 +16,11 @@ class Builder implements ContainerAwareInterface
     public function mainMenu(FactoryInterface $factory, array $options)
     {
         $em = $this->container->get('doctrine')->getManager();
+        $authChecker = $this->container->get('security.authorization_checker');
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
 
         $menu = $factory->createItem('root', ['navbar' => true]);
         $menu->addChild('Home', ['route' => 'homepage']);
-
-        /*
-        if($this->container->get('security.context')->isGranted(array('ROLE_ADMIN', 'ROLE_USER'))) {}
-        $username = $this->container->get('security.context')->getToken()->getUser()->getUsername();
-        */
 
         //Projects dropdown
         $dropdown = $menu->addChild('Projects', [
@@ -39,10 +37,13 @@ class Builder implements ContainerAwareInterface
                 'routeParameters' => array('id' => $project->getId())
             ]);
         }
-        $dropdown->addChild('divider', ['divider' => true]);
-        $dropdown->addChild('Create', [
-            'route' => 'project_create',
-        ]);
+
+        if ($authChecker->isGranted(Credential::CREATE_PROJECT, $user)) {
+            $dropdown->addChild('divider', ['divider' => true]);
+            $dropdown->addChild('Create', [
+                'route' => 'project_create',
+            ]);
+        }
 
         //Issues dropdown
         $dropdown = $menu->addChild('Issues', [
@@ -60,10 +61,6 @@ class Builder implements ContainerAwareInterface
                 'routeParameters' => array('id' => $issue->getId())
             ]);
         }
-        $dropdown->addChild('divider', ['divider' => true]);
-        $dropdown->addChild('Create', [
-            'route' => 'issue_create',
-        ]);
 
         $active = false;
         foreach ($menu->getChildren() as $item) {

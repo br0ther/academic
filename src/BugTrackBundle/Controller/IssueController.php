@@ -2,6 +2,7 @@
 
 namespace BugTrackBundle\Controller;
 
+use BugTrackBundle\Entity\Project;
 use BugTrackBundle\Event\BugTrackEvents;
 use BugTrackBundle\Event\IssueEvent;
 use BugTrackBundle\Form\Type\IssueFormType;
@@ -29,6 +30,7 @@ class IssueController extends Controller
      * @Template("issue/view.html.twig")
      *
      * @param Issue $issue
+     *
      * @return Response
      */
     public function viewAction(Issue $issue)
@@ -43,19 +45,23 @@ class IssueController extends Controller
     /**
      * Issue create
      * 
-     * @Route("/issue/create", name="issue_create")
+     * @Route("/issue/create/project/{id}", name="issue_create")
+     * @ParamConverter("project", class="BugTrackBundle:Project")
      * @Method({"GET", "POST"})
      * @Template("issue/edit.html.twig")
      *
+     * @param Project $project
      * @param Request $request
+     *
      * @return Response
      */
-    public function createAction(Request $request)
+    public function createAction(Project $project, Request $request)
     {
         //ToDo: add permissions & voter later
         $entityManager = $this->getDoctrine()->getManager();
 
         $issue = new Issue();
+        $issue->setProject($project);
         $issue->setReporter($this->getUser());
 
         $pageLabel = $this->get('translator')->trans('issue.create', [], 'BugTrackBundle');
@@ -95,6 +101,7 @@ class IssueController extends Controller
      *
      * @param Issue $issue
      * @param Request $request
+     *
      * @return Response
      */
     public function editAction(Issue $issue, Request $request)

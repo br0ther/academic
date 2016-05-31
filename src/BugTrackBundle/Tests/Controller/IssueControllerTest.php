@@ -126,15 +126,16 @@ class IssueControllerTest extends WebTestCase
     {
         /** @var User $userAdmin */
         $userAdmin = $this->fixtures->getReference('userAdmin');
+        
+        $project = $this->fixtures->getReference('projectA');
 
         $this->loginAs($userAdmin, 'main');
         $loggedClient = static::makeClient();
 
-        $crawler = $loggedClient->request('GET', '/issue/create');
+        $crawler = $loggedClient->request('GET', '/issue/create/project/' . $project->getId());
         $form = $crawler->filter('form[name=issue_form]')->form();
 
         $data = [
-            'issue_form[project]' => 1,
             'issue_form[code]' => 'ABC',
             'issue_form[type]' => IssueType::TYPE_SUBTASK,
             'issue_form[status]' => StatusType::STATUS_RESOLVED,

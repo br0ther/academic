@@ -46,6 +46,7 @@ class IssueFormType extends AbstractType
                 'choice_label' => 'getTitle',
                 'required' => true,
                 'class' => Project::class,
+                'disabled' => 'true',
                 ])
             ->add('code', TextType::class, [
                 'attr' => [
@@ -82,7 +83,6 @@ class IssueFormType extends AbstractType
             ])
             ->add('reporter', EntityType::class, [
                 'choice_label' => 'fullName',
-                'required' => false,
                 'class' => User::class,
             ])
             ->add('assignee', EntityType::class, [

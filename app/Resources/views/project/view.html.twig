@@ -32,9 +32,11 @@
                 <label class="col-sm-3">Issues</label>
                 <div class="col-sm-9">
                     {{ table.issuesTable(project.issues) }}
-                    <a href="{{ path('issue_create') }}" class="btn btn-info" role="button">
-                        {{ 'issue.create'|trans }}
-                    </a>
+                    {% if is_granted('create_issue', project) %}
+                        <a href="{{ path('issue_create', {'id': project.id}) }}" class="btn btn-info" role="button">
+                            {{ 'issue.create'|trans }}
+                        </a>
+                    {% endif %}
                 </div>
             </div>
 

@@ -1,3 +1,14 @@
+credential:
+    edit_profile: You haven't permissions to edit user profile
+    view_project: You haven't permissions to view this project
+    edit_project: You haven't permissions to edit project
+    create_project: You haven't permissions to create project
+    create_issue: You haven't permissions to create issue
+
+user:
+    not_found: User not found!
+    edit: Edit profile
+
 project:
     create: Create project
     edit: Edit project
