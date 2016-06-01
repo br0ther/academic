@@ -12,25 +12,43 @@ services:
             - { name: kernel.event_subscriber }
 
     bug_track.security.voter.user:
-        class:      BugTrackBundle\Security\Voter\UserVoter
-        public:     false
+        class: BugTrackBundle\Security\Voter\UserVoter
+        public: false
         tags:
             - { name: security.voter }
 
     bug_track.security.voter.project:
-        class:      BugTrackBundle\Security\Voter\ProjectVoter
-        public:     false
+        class: BugTrackBundle\Security\Voter\ProjectVoter
+        public: false
         tags:
             - { name: security.voter }
 
     bug_track.security.voter.issue:
-        class:      BugTrackBundle\Security\Voter\IssueVoter
-        public:     false
+        class: BugTrackBundle\Security\Voter\IssueVoter
+        public: false
         tags:
             - { name: security.voter }
 
     bug_track.security.voter.comment:
-        class:      BugTrackBundle\Security\Voter\CommentVoter
-        public:     false
+        class: BugTrackBundle\Security\Voter\CommentVoter
+        public: false
         tags:
             - { name: security.voter }
+
+    bug_track.entity_listener.issue:
+        class: BugTrackBundle\Entity\Listener\IssueEntityListener
+        arguments: ['@security.token_storage']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    bug_track.entity_listener.comment:
+        class: BugTrackBundle\Entity\Listener\CommentEntityListener
+        arguments: ['@security.token_storage']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    bug_track.twig.activities_extension:
+        class: BugTrackBundle\Twig\ActivitiesExtension
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: twig.extension }

@@ -29,3 +29,8 @@ comment:
     actions: Actions
     create: Create comment
     edit: Edit comment
+
+activity:
+    created: Created
+    issue: Issue
+    body: Body

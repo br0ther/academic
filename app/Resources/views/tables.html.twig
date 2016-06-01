@@ -61,3 +61,33 @@
         </tbody>
     </table>
 {% endmacro %}
+
+{% macro activitiesTable(activities) %}
+    <table class="table table-hover">
+        <thead> <tr>
+            <th>{{ 'activity.created'|trans }}</th>
+            <th>{{ 'activity.issue'|trans }}</th>
+            <th>{{ 'activity.body'|trans }}</th>
+        </tr></thead>
+        <tbody>
+        {% for activity in activities %}
+            <tr>
+                <td class="col-md-2">
+                    <a href="{{ path('user_view', {'id': activity.user.id}) }}">{{ activity.user.fullName }}
+                    </a>&nbsp;{{ activity.created|date('Y-m-d H:i:s') }}
+                </td>
+                <td class="col-md-2">
+                    {% if is_granted('view_issue', activity.issue) %}
+                        <a href="{{ path('issue_view', {'id': activity.issue.id}) }}">
+                            {{ activity.issue.getTitle }}
+                        </a>
+                    {% else %}
+                        {{ activity.issue.getTitle }}
+                    {% endif %}
+                </td>
+                <td class="col-md-5">{{ get_activity_title(activity) }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endmacro %}

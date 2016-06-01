@@ -3,12 +3,13 @@
 namespace BugTrackBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as GedmoAnnotations;
 
 /**
  * Project
  *
  * @ORM\Table(name="issue_activity")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="BugTrackBundle\Entity\Repository\IssueActivityRepository")
  */
 class IssueActivity
 {
@@ -72,6 +73,15 @@ class IssueActivity
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $user;
+
+    /**
+     * @var \DateTime $created
+     *
+     * @GedmoAnnotations\Timestampable(on="create")
+     *
+     * @ORM\Column(name="created", type="datetime", nullable=false)
+     */
+    private $created;
     
     /**
      * Get id
@@ -249,5 +259,29 @@ class IssueActivity
         $this->newValue = $newValue;
 
         return $this;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     *
+     * @return Project
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
     }
 }

@@ -10,6 +10,7 @@ class ActivityType extends AbstractEnumType
     const ACTIVITY_ISSUE_ADDED = 'issue_added';
     const ACTIVITY_ISSUE_CHANGED = 'issue_changed';
     const ACTIVITY_COMMENT_ADDED = 'comment_added';
+    const ACTIVITY_COMMENT_CHANGED = 'comment_changed';
 
     /**
      * @var string Name of this type
@@ -25,5 +26,6 @@ class ActivityType extends AbstractEnumType
         self::ACTIVITY_ISSUE_ADDED => self::ACTIVITY_ISSUE_ADDED,
         self::ACTIVITY_ISSUE_CHANGED => self::ACTIVITY_ISSUE_CHANGED,
         self::ACTIVITY_COMMENT_ADDED => self::ACTIVITY_COMMENT_ADDED,
+        self::ACTIVITY_COMMENT_CHANGED => self::ACTIVITY_COMMENT_CHANGED,
     ];
 }

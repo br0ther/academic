@@ -17,6 +17,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields="summary", message="Sorry, this summary is already in use.")
  * @UniqueEntity(fields="code", message="Sorry, this code is already in use.")
  *
+ * @ORM\EntityListeners({"BugTrackBundle\Entity\Listener\IssueEntityListener"})
+ *
  * @BugTrackConstraints\ParentSubtask()
  * @BugTrackConstraints\ResolutionNonResolved()
  */

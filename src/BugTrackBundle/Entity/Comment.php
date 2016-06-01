@@ -11,6 +11,8 @@ use Gedmo\Mapping\Annotation as GedmoAnnotations;
  *
  * @ORM\Table(name="comment")
  * @ORM\Entity
+ * 
+ * @ORM\EntityListeners({"BugTrackBundle\Entity\Listener\CommentEntityListener"})
  */
 class Comment
 {
