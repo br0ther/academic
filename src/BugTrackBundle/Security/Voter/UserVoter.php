@@ -41,7 +41,7 @@ class UserVoter extends AbstractUserVoter
                 $isGranted = static::isAdmin($user) || static::isManager($user);
                 break;
             case Credential::EDIT_PROFILE:
-                $isGranted = $this->isUserOwner($user, $object);
+                $isGranted = static::isAdmin($user) || $object === $user;
                 break;
             default:
                 $isGranted = false;

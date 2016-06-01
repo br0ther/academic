@@ -39,7 +39,7 @@ class CommentVoter extends AbstractUserVoter
         switch ($attribute) {
             case Credential::EDIT_COMMENT:
             case Credential::DELETE_COMMENT:
-                $isGranted = static::isAdmin($user) || $this->isUserOwner($user, $comment);
+                $isGranted = static::isAdmin($user) || $comment->getAuthor() === $user;
                 break;
             default:
                 $isGranted = false;
