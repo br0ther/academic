@@ -7,6 +7,7 @@ use BugTrackBundle\Entity\Comment;
 use BugTrackBundle\Entity\User;
 use BugTrackBundle\Security\Credential;
 use BugTrackBundle\Security\Voter\CommentVoter;
+use BugTrackBundle\Tests\PHPUnitHelperTrait;
 
 /**
  * Class CommentVoterTest
@@ -14,6 +15,8 @@ use BugTrackBundle\Security\Voter\CommentVoter;
  */
 class CommentVoterTest extends \PHPUnit_Framework_TestCase
 {
+    use PHPUnitHelperTrait;
+    
     /**
      * @return array
      */
@@ -48,11 +51,6 @@ class CommentVoterTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsGrantedForUser($attribute, $role, $owner, $expected)
     {
-        $commentVoter = new CommentVoter();
-        $commentVoterReflection = new \ReflectionClass(CommentVoter::class);
-        $method = $commentVoterReflection->getMethod('isGrantedForUser');
-        $method->setAccessible(true);
-
         $user = $this->getMock(User::class);
         $user->expects($this->any())
             ->method('getRoles')
@@ -71,7 +69,11 @@ class CommentVoterTest extends \PHPUnit_Framework_TestCase
         
         $this->assertEquals(
             $expected,
-            $method->invokeArgs($commentVoter, [$attribute, $comment, $user]),
+            $this->invokeMethod(
+                new CommentVoter(),
+                'isGrantedForUser',
+                [$attribute, $comment, $user]
+            ),
             sprintf("%s (%s) OWNER: %s", $role, $attribute, (int) $owner)
         );
     }

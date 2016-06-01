@@ -8,6 +8,7 @@ use BugTrackBundle\Entity\Project;
 use BugTrackBundle\Entity\User;
 use BugTrackBundle\Security\Credential;
 use BugTrackBundle\Security\Voter\IssueVoter;
+use BugTrackBundle\Tests\PHPUnitHelperTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -16,6 +17,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class IssueVoterTest extends \PHPUnit_Framework_TestCase
 {
+    use PHPUnitHelperTrait;
+    
     /**
      * @return array
      */
@@ -58,11 +61,6 @@ class IssueVoterTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsGrantedForUser($attribute, $role, $member, $expected)
     {
-        $issueVoter = new IssueVoter();
-        $issueVoterReflection = new \ReflectionClass(IssueVoter::class);
-        $method = $issueVoterReflection->getMethod('isGrantedForUser');
-        $method->setAccessible(true);
-
         $user = $this->getMock(User::class);
         $user->expects($this->any())
             ->method('getRoles')
@@ -87,7 +85,11 @@ class IssueVoterTest extends \PHPUnit_Framework_TestCase
         
         $this->assertEquals(
             $expected,
-            $method->invokeArgs($issueVoter, [$attribute, $issue, $user]),
+            $this->invokeMethod(
+                new IssueVoter(),
+                'isGrantedForUser',
+                [$attribute, $issue, $user]
+            ),
             sprintf("%s (%s) OWNER: %s", $role, $attribute, (int) $member)
         );
     }

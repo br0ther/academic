@@ -6,6 +6,7 @@ use BugTrackBundle\DBAL\Type\UserType;
 use BugTrackBundle\Entity\User;
 use BugTrackBundle\Security\Credential;
 use BugTrackBundle\Security\Voter\UserVoter;
+use BugTrackBundle\Tests\PHPUnitHelperTrait;
 
 /**
  * Class UserVoterTest
@@ -13,6 +14,8 @@ use BugTrackBundle\Security\Voter\UserVoter;
  */
 class UserVoterTest extends \PHPUnit_Framework_TestCase
 {
+    use PHPUnitHelperTrait;
+    
     /**
      * @return array
      */
@@ -55,11 +58,6 @@ class UserVoterTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsGrantedForUser($attribute, $role, $owner, $expected)
     {
-        $userVoter = new UserVoter();
-        $userVoterReflection = new \ReflectionClass(UserVoter::class);
-        $method = $userVoterReflection->getMethod('isGrantedForUser');
-        $method->setAccessible(true);
-
         $user = $this->getMock(User::class);
         $user->expects($this->any())
             ->method('getRoles')
@@ -73,7 +71,11 @@ class UserVoterTest extends \PHPUnit_Framework_TestCase
         
         $this->assertEquals(
             $expected,
-            $method->invokeArgs($userVoter, [$attribute, $checkedUser, $user]),
+            $this->invokeMethod(
+                new UserVoter(),
+                'isGrantedForUser',
+                [$attribute, $checkedUser, $user]
+            ),
             sprintf("%s (%s) OWNER: %s", $role, $attribute, (int) $owner)
         );
     }
