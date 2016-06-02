@@ -22,7 +22,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @BugTrackConstraints\ParentSubtask()
  * @BugTrackConstraints\ResolutionNonResolved()
  */
-class Issue
+class Issue implements ActivityListableInterface
 {
     /**
      * @var int

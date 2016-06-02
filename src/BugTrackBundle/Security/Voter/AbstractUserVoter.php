@@ -85,33 +85,6 @@ abstract class AbstractUserVoter extends Voter
 
         return $this->isGrantedForUser($attribute, $subject, $token->getUser());
     }
-    /**
-     * Checks that given user owns given object
-     *
-     * @param UserInterface $user
-     * @param object        $object
-     *
-     * @return bool
-     *
-     * @throws \InvalidArgumentException
-     */
-    protected function isUserOwner(UserInterface $user, $object)
-    {
-
-        switch (true) {
-            case $object instanceof User:
-                $ownerOfObject = $object;
-                break;
-            case $object instanceof Comment:
-                $ownerOfObject = $object->getAuthor();
-                break;
-            default:
-                $msg = 'Unsupported object for retrieving owning user. Given type: ' . gettype($object);
-                throw new \InvalidArgumentException($msg);
-        }
-
-        return $user && $user->getId() === $ownerOfObject->getId();
-    }
     
     /**
      * Checks that given user is Admin

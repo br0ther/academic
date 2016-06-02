@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="`user`")
  * @ORM\Entity(repositoryClass="BugTrackBundle\Entity\Repository\UserRepository")
  */
-class User extends BaseUser
+class User extends BaseUser implements ActivityListableInterface
 {
     const ROLE_BY_DEFAULT = 'ROLE_USER';
 

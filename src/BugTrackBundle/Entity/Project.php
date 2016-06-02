@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields="label", message="Sorry, this label is already in use.")
  * @UniqueEntity(fields="code", message="Sorry, this code is already in use.")
  */
-class Project
+class Project implements ActivityListableInterface
 {
     /**
      * @var int

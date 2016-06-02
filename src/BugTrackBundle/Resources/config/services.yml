@@ -49,6 +49,6 @@ services:
 
     bug_track.twig.activities_extension:
         class: BugTrackBundle\Twig\ActivitiesExtension
-        arguments: ['@doctrine.orm.entity_manager']
+        arguments: ['@doctrine.orm.entity_manager', '@router', '@translator']
         tags:
             - { name: twig.extension }

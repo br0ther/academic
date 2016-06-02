@@ -16,4 +16,11 @@
         </div>
     </div>
 
+    <div class="form-group">
+        <label class="col-sm-3">My Activities</label>
+        <div class="col-sm-9">
+            {{ table.projectActivitiesTable(get_activities(app.user)) }}
+        </div>
+    </div>
+
 {% endblock %}

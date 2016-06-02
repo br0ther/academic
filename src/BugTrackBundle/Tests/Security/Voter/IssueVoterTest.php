@@ -28,26 +28,32 @@ class IssueVoterTest extends \PHPUnit_Framework_TestCase
             [Credential::VIEW_ISSUE, UserType::ROLE_OPERATOR, false, false],
             [Credential::VIEW_ISSUE, UserType::ROLE_MANAGER, false, true],
             [Credential::VIEW_ISSUE, UserType::ROLE_ADMIN, false, true],
+            [Credential::VIEW_ISSUE, 'UNDEFINED_ROLE', false, false],
 
             [Credential::VIEW_ISSUE, UserType::ROLE_OPERATOR, true, true],
             [Credential::VIEW_ISSUE, UserType::ROLE_MANAGER, true, true],
             [Credential::VIEW_ISSUE, UserType::ROLE_ADMIN, true, true],
+            [Credential::VIEW_ISSUE, 'UNDEFINED_ROLE', false, false],
 
             [Credential::EDIT_ISSUE, UserType::ROLE_OPERATOR, false, false],
             [Credential::EDIT_ISSUE, UserType::ROLE_MANAGER, false, true],
             [Credential::EDIT_ISSUE, UserType::ROLE_ADMIN, false, true],
-
+            [Credential::EDIT_ISSUE, 'UNDEFINED_ROLE', false, false],
+            
             [Credential::EDIT_ISSUE, UserType::ROLE_OPERATOR, true, true],
             [Credential::EDIT_ISSUE, UserType::ROLE_MANAGER, true, true],
             [Credential::EDIT_ISSUE, UserType::ROLE_ADMIN, true, true],
-
+            [Credential::EDIT_ISSUE, 'UNDEFINED_ROLE', false, false],
+            
             [Credential::CREATE_COMMENT, UserType::ROLE_OPERATOR, false, false],
             [Credential::CREATE_COMMENT, UserType::ROLE_MANAGER, false, true],
             [Credential::CREATE_COMMENT, UserType::ROLE_ADMIN, false, true],
-
+            [Credential::CREATE_COMMENT, 'UNDEFINED_ROLE', false, false],
+            
             [Credential::CREATE_COMMENT, UserType::ROLE_OPERATOR, true, true],
             [Credential::CREATE_COMMENT, UserType::ROLE_MANAGER, true, true],
             [Credential::CREATE_COMMENT, UserType::ROLE_ADMIN, true, true],
+            [Credential::CREATE_COMMENT, 'UNDEFINED_ROLE', false, false],
         ];
     }
 

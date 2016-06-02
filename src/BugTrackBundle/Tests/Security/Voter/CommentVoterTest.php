@@ -26,18 +26,22 @@ class CommentVoterTest extends \PHPUnit_Framework_TestCase
             [Credential::EDIT_COMMENT, UserType::ROLE_OPERATOR, false, false],
             [Credential::EDIT_COMMENT, UserType::ROLE_MANAGER, false, false],
             [Credential::EDIT_COMMENT, UserType::ROLE_ADMIN, false, true],
+            [Credential::EDIT_COMMENT, 'UNDEFINED_ROLE', false, false],
 
             [Credential::EDIT_COMMENT, UserType::ROLE_OPERATOR, true, true],
             [Credential::EDIT_COMMENT, UserType::ROLE_MANAGER, true, true],
             [Credential::EDIT_COMMENT, UserType::ROLE_ADMIN, true, true],
-
+            [Credential::EDIT_COMMENT, 'UNDEFINED_ROLE', true, true],
+            
             [Credential::DELETE_COMMENT, UserType::ROLE_OPERATOR, false, false],
             [Credential::DELETE_COMMENT, UserType::ROLE_MANAGER, false, false],
             [Credential::DELETE_COMMENT, UserType::ROLE_ADMIN, false, true],
-
+            [Credential::EDIT_COMMENT, 'UNDEFINED_ROLE', false, false],
+            
             [Credential::DELETE_COMMENT, UserType::ROLE_OPERATOR, true, true],
             [Credential::DELETE_COMMENT, UserType::ROLE_MANAGER, true, true],
             [Credential::DELETE_COMMENT, UserType::ROLE_ADMIN, true, true],
+            [Credential::EDIT_COMMENT, 'UNDEFINED_ROLE', true, true],
         ];
     }
 

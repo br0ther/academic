@@ -34,3 +34,7 @@ activity:
     created: Created
     issue: Issue
     body: Body
+    issue_added: 'Issue created.'
+    issue_changed: 'Issue changed: field <i>%field%</i> from <i>%old%</i> to <i>%new%</i>'
+    comment_added: '<a class="js-mark" href=%url%>Comment</a> created.'
+    comment_changed: '<a class="js-mark" href=%url%>Comment</a> changed: <i>%field%</i> from <i>%old%</i> to <i>%new%</i>'

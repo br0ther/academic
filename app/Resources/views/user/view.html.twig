@@ -38,11 +38,19 @@
         </div>
 
         </div>
+
         <div class="form-group">
             <div class="col-sm-3">
                 <a href="{{ path('user_edit') }}" class="btn btn-info {{ not is_granted('edit_profile', user) ? 'disabled' : ''}}" role="button">
                     Edit
                 </a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3">Activities</label>
+            <div class="col-sm-9">
+                {{ table.projectActivitiesTable(get_activities(user)) }}
             </div>
         </div>
     </div>

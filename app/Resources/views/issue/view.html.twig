@@ -113,8 +113,15 @@
                 <div class="col-sm-9">
                     <a href="{{ path('issue_edit', {'id': issue.id}) }}"
                        class="btn btn-info {{ not is_granted('edit_issue', issue) ? 'disabled' : ''}}" role="button">
-                        Edit
+                        Edit issue
                     </a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3">Activities</label>
+                <div class="col-sm-9">
+                    {{ table.issueActivitiesTable(get_activities(issue)) }}
                 </div>
             </div>
         </fieldset>
