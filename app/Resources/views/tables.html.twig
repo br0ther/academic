@@ -12,7 +12,7 @@
             <tr id="comment-{{ comment.id }}">
                 <td class="col-md-2">
                     <a href="{{ path('user_view', {'id': comment.author.id}) }}">{{ comment.author.fullName }}
-                    </a>&nbsp;{{ comment.updated|date('Y-m-d H:i:s') }}
+                    </a>&nbsp;{{ comment.updated|tz_datetime }}
                 </td>
                 <td class="col-md-5">{{ comment.body|nl2br }}</td>
                 <td class="col-md-2">
@@ -53,7 +53,7 @@
             <tr>
                 <td class="col-md-2">
                     <a href="{{ path('user_view', {'id': issue.reporter.id}) }}">{{ issue.reporter.fullName }}
-                    </a>&nbsp;{{ issue.updated|date('Y-m-d H:i:s') }}
+                    </a>&nbsp;{{ issue.updated|tz_datetime }}
                 </td>
                 <td class="col-md-5">{{ issue.getTitle }}</td>
                 <td class="col-md-2">
@@ -84,7 +84,7 @@
             <tr>
                 <td class="col-md-2">
                     <a href="{{ path('user_view', {'id': activity.user.id}) }}">{{ activity.user.fullName }}
-                    </a>&nbsp;{{ activity.created|date('Y-m-d H:i:s') }}
+                    </a>&nbsp;{{ activity.created|tz_datetime }}
                 </td>
                 <td class="col-md-2">
                     {% if is_granted('view_issue', activity.issue) %}
@@ -113,7 +113,7 @@
             <tr>
                 <td class="col-md-2">
                     <a href="{{ path('user_view', {'id': activity.user.id}) }}">{{ activity.user.fullName }}
-                    </a>&nbsp;{{ activity.created|date('Y-m-d H:i:s') }}
+                    </a>&nbsp;{{ activity.created|tz_datetime }}
                 </td>
                 <td class="col-md-7">{{ get_activity_title(activity)|raw }}</td>
             </tr>

@@ -3,7 +3,9 @@
 namespace BugTrackBundle\Form\Type;
 
 use BugTrackBundle\DBAL\Type\UserType;
+use BugTrackBundle\Entity\Timezone;
 use BugTrackBundle\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -44,6 +46,11 @@ class UserFormType extends AbstractType
             ->add('username', TextType::class)
             ->add('fullName', TextType::class, [
                 'required' => true,
+            ])
+            ->add('timezone', EntityType::class, [
+                'choice_label' => 'getName',
+                'class' => Timezone::class,
+                'required' => false,
             ])
             ->add('roles', ChoiceType::class, [
                 'choices' => array_flip(UserType::getChoices()),

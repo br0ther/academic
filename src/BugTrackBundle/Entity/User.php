@@ -69,6 +69,13 @@ class User extends BaseUser implements ActivityListableInterface
      */
     protected $activities;
 
+    /**
+     * @var Timezone
+     *
+     * @ORM\ManyToOne(targetEntity="Timezone")
+     * @ORM\JoinColumn(name="timezone_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
+    private $timezone;
 
     public function __construct()
     {
@@ -79,6 +86,8 @@ class User extends BaseUser implements ActivityListableInterface
         $this->projects = new ArrayCollection();
         $this->issues = new ArrayCollection();
         $this->activities = new ArrayCollection();
+
+        $this->addRole('ROLE_OPERATOR');
     }
 
     /**
@@ -318,5 +327,29 @@ class User extends BaseUser implements ActivityListableInterface
     public function getActivities()
     {
         return $this->activities;
+    }
+
+    /**
+     * Get Timezone
+     *
+     * @return Timezone
+     */
+    public function getTimezone()
+    {
+        return $this->timezone;
+    }
+
+    /**
+     * Set Timezone
+     *
+     * @param Timezone $timezone
+     *
+     * @return User
+     */
+    public function setTimezone($timezone)
+    {
+        $this->timezone = $timezone;
+
+        return $this;
     }
 }

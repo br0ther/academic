@@ -52,3 +52,9 @@ services:
         arguments: ['@doctrine.orm.entity_manager', '@router', '@translator']
         tags:
             - { name: twig.extension }
+
+    bug_track.twig.date_time_extension:
+        class: BugTrackBundle\Twig\DateTimeExtension
+        arguments: ['@security.token_storage']
+        tags:
+            - { name: twig.extension }

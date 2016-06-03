@@ -85,12 +85,12 @@
 
             <div class="form-group">
                 <label class="col-sm-3">Created</label>
-                <div class="col-sm-4">{{ issue.created|date('Y-m-d H:i:s') }}</div>
+                <div class="col-sm-4">{{ issue.created|tz_datetime }}</div>
             </div>
 
             <div class="form-group">
                 <label class="col-sm-3">Updated</label>
-                <div class="col-sm-4">{{ issue.updated|date('Y-m-d H:i:s') }}</div>
+                <div class="col-sm-4">{{ issue.updated|tz_datetime }}</div>
             </div>
 
             <div class="form-group">
