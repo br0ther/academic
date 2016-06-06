@@ -13,6 +13,10 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
+/**
+ * Class CommentEntityListenerTest
+ * @package BugTrackBundle\Tests\Entity
+ */
 class CommentEntityListenerTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -41,6 +45,9 @@ class CommentEntityListenerTest extends \PHPUnit_Framework_TestCase
         $this->commentEntityListener = new CommentEntityListener($this->tokenStorage);
     }
 
+    /**
+     * testPostPersist
+     */
     public function testPostPersist()
     {
         $user = $this->getMock(User::class);
@@ -68,6 +75,9 @@ class CommentEntityListenerTest extends \PHPUnit_Framework_TestCase
         $this->commentEntityListener->postPersist($this->comment, $eventArgs);
     }
 
+    /**
+     * testPreUpdate
+     */
     public function testPreUpdate()
     {
         $eventArgs = $this->getMockBuilder(PreUpdateEventArgs::class)
@@ -77,8 +87,8 @@ class CommentEntityListenerTest extends \PHPUnit_Framework_TestCase
         $eventArgs->method('hasChangedField')
             ->willReturn(CommentEntityListener::BODY_FIELD);
 
-        $ssueEntityListenerReflection = new \ReflectionClass(CommentEntityListener::class);
-        $property = $ssueEntityListenerReflection->getProperty('activities');
+        $commentEntityListenerReflection = new \ReflectionClass(CommentEntityListener::class);
+        $property = $commentEntityListenerReflection->getProperty('activities');
         $property->setAccessible(true);
 
         $this->assertTrue($property->getValue($this->commentEntityListener) === []);
@@ -86,5 +96,37 @@ class CommentEntityListenerTest extends \PHPUnit_Framework_TestCase
         $this->commentEntityListener->preUpdate($this->comment, $eventArgs);
         
         $this->assertTrue($property->getValue($this->commentEntityListener)[0] instanceof IssueActivity);
+    }
+
+    /**
+     * testPostUpdate
+     */
+    public function testPostUpdate()
+    {
+        $issueActivity = $this->getMock(IssueActivity::class);
+        
+        $eventArgs = $this->getMockBuilder(LifecycleEventArgs::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $entityManager = $this->getMockBuilder(EntityManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $eventArgs->method('getEntityManager')->willReturn($entityManager);
+
+        $commentEntityListenerReflection = new \ReflectionClass(CommentEntityListener::class);
+        $property = $commentEntityListenerReflection->getProperty('activities');
+        $property->setAccessible(true);
+        $property->setValue($this->commentEntityListener, [$issueActivity]);
+
+        $entityManager->expects($this->once())
+            ->method('persist')
+            ->with($this->isInstanceOf(IssueActivity::class));
+        
+        $this->assertTrue($property->getValue($this->commentEntityListener)[0] instanceof IssueActivity);
+
+        $this->commentEntityListener->postUpdate($this->comment, $eventArgs);
+
     }
 }
