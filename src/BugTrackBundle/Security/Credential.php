@@ -23,5 +23,4 @@ final class Credential
     const CREATE_COMMENT = 'create_comment';
     const EDIT_COMMENT = 'edit_comment';
     const DELETE_COMMENT = 'delete_comment';
-    
 }
